@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
 @Entity('users')
-export default class User {
+class User {
   @PrimaryColumn()
   id: string;
 
@@ -33,3 +33,5 @@ export default class User {
     }
   }
 }
+
+export default User;
