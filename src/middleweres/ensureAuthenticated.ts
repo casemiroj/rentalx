@@ -33,6 +33,10 @@ export default async function ensureAuthenticated(
       throw new AppError('User does not exist!', 401);
     }
 
+    request.user = {
+      id: user_id,
+    };
+
     next();
   } catch {
     throw new AppError('Invald token!', 401);
