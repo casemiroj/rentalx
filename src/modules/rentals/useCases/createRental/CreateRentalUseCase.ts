@@ -1,6 +1,11 @@
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
 import { Rental } from '@modules/rentals/infra/typeorm/entities/Rental';
 import { IRentalsRepository } from '@modules/rentals/repositories/IRentalsRepository';
 import AppError from '@shared/errors/AppError';
+
+dayjs.extend(utc);
 
 interface IRequest {
   user_id: string;
@@ -15,6 +20,8 @@ export class CreateRentalUseCase {
     car_id,
     expected_return_date,
   }: IRequest): Promise<Rental> {
+    const minHours = 24;
+
     const carUnavailable = await this.rentalsRepository.findOpenRentalByCar(
       car_id
     );
@@ -29,6 +36,17 @@ export class CreateRentalUseCase {
 
     if (rentalOpenToUser) {
       throw new AppError('There is a rental in progress for user!');
+    }
+
+    const expectedReturnedDateFormat = dayjs(expected_return_date)
+      .utc()
+      .local()
+      .format();
+    const dateNow = dayjs().utc().local().format();
+    const compare = dayjs(expectedReturnedDateFormat).diff(dateNow, 'hours');
+
+    if (compare < minHours) {
+      throw new AppError('Invalid return time!');
     }
 
     const rental = await this.rentalsRepository.create({
