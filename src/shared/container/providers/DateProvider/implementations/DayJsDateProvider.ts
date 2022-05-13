@@ -20,4 +20,11 @@ export class DayJsDateProvider implements IDateProvider {
   dateNow(): Date {
     return dayjs().toDate();
   }
+
+  compareInDays(startDate: Date, endDate: Date): number {
+    const endDateUTC = this.convertToUTC(endDate);
+    const startDateUTC = this.convertToUTC(startDate);
+
+    return dayjs(endDateUTC).diff(startDateUTC, 'days');
+  }
 }
