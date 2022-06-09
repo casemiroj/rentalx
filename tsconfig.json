@@ -4,7 +4,8 @@
     "experimentalDecorators": true,                   
     "emitDecoratorMetadata": true,                    
     "module": "commonjs",                                
-    "baseUrl": "./src",                                  
+    "baseUrl": "./src",                                 
+    "outDir": "./dist",                                   
     "paths": {
       "@modules/*": ["modules/*"],
       "@config/*": ["config/*"],
@@ -13,7 +14,6 @@
       "@utils/*": ["utils/*"]
     },                                      
     "resolveJsonModule": true,                        
-    "outDir": "./dist",                                   
     "esModuleInterop": true,                             
     "forceConsistentCasingInFileNames": true,            
     "skipLibCheck": true                                 
